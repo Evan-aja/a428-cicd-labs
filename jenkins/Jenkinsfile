@@ -19,12 +19,28 @@ pipeline {
                 sh './jenkins/scripts/test.sh'
             }
         }
-        stage('Deploy') {
+        stage('Deliver') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
-                input message: 'Finished using the web site? (Click "Proceed" to continue)'
+                // input message: 'Finished using the web site? (Click "Proceed" to continue)'
+                sh 'echo "App will be running for 60 seconds"'
+                sleep(60)
                 sh './jenkins/scripts/kill.sh'
             }
+        }
+        stage('Deploy'){
+            def deployChoice = input(
+                        id: 'deployChoice',
+                        message: 'Do you want to deploy this release?',
+                        parameters: [
+                            booleanParam(defaultValue: true, description: 'Deploy the release', name: 'DEPLOY')
+                        ]
+                    )
+                    if (deployChoice) {
+                        echo 'Deploying...'
+                    } else {
+                        echo 'Not deploying...'
+                    }
         }
     }
 }
