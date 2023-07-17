@@ -30,17 +30,19 @@ pipeline {
         }
         stage('Deploy'){
             steps{
-                def deployChoice = input(
-                    id: 'deployChoice',
-                    message: 'Do you want to deploy this release?',
-                    parameters: [
-                        booleanParam(defaultValue: true, description: 'Deploy the release', name: 'DEPLOY')
-                    ]
-                )
-                if (deployChoice) {
-                    echo 'Deploying...'
-                } else {
-                    echo 'Not deploying...'
+                script {
+                    def deployChoice = input(
+                        id: 'deployChoice',
+                        message: 'Do you want to deploy this release?',
+                        parameters: [
+                            booleanParam(defaultValue: true, description: 'Deploy the release', name: 'DEPLOY')
+                        ]
+                    )
+                    if (deployChoice) {
+                        echo 'Deploying...'
+                    } else {
+                        echo 'Not deploying...'
+                    }
                 }
             }
         }
