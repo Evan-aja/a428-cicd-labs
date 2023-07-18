@@ -28,7 +28,7 @@ pipeline {
                 sh './jenkins/scripts/kill.sh'
             }
         }
-        stage('Deliver'){
+        stage('Manual Approval'){
             steps{
                 script {
                     def deployChoice = input(
